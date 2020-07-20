@@ -33,17 +33,17 @@ class Boid {
 
   void flock () {
     PVector allign = getAverageDir();
-    PVector avoidDir = getAvoidDir(); 
+    PVector avoidDir = getAvoidDir();
     PVector avoidObjects = getAvoidAvoids();
     PVector noise = new PVector(random(2) - 1, random(2) -1);
     PVector cohese = getCohesion();
 
     allign.mult(1);
     if (!option_friend) allign.mult(0);
-    
+
     avoidDir.mult(1);
     if (!option_crowd) avoidDir.mult(0);
-    
+
     avoidObjects.mult(3);
     if (!option_avoid) avoidObjects.mult(0);
 
@@ -52,7 +52,7 @@ class Boid {
 
     cohese.mult(1);
     if (!option_cohese) cohese.mult(0);
-    
+
     stroke(0, 255, 160);
 
     move.add(allign);
@@ -62,7 +62,7 @@ class Boid {
     move.add(cohese);
 
     move.limit(maxSpeed);
-    
+
     shade += getAverageColor() * 0.03;
     shade += (random(2) - 1) ;
     shade = (shade + 255) % 255; //max(0, min(255, shade));
@@ -90,7 +90,7 @@ class Boid {
       } else if (other.shade - shade > 128) {
         total += other.shade - 255 - shade;
       } else {
-        total += other.shade - shade; 
+        total += other.shade - shade;
       }
       count++;
     }
@@ -108,7 +108,7 @@ class Boid {
       if ((d > 0) && (d < friendRadius)) {
         PVector copy = other.move.copy();
         copy.normalize();
-        copy.div(d); 
+        copy.div(d);
         sum.add(copy);
         count++;
       }
@@ -159,7 +159,7 @@ class Boid {
     }
     return steer;
   }
-  
+
   PVector getCohesion () {
    float neighbordist = 50;
     PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all locations
@@ -173,10 +173,10 @@ class Boid {
     }
     if (count > 0) {
       sum.div(count);
-      
-      PVector desired = PVector.sub(sum, pos);  
+
+      PVector desired = PVector.sub(sum, pos);
       return desired.setMag(0.05);
-    } 
+    }
     else {
       return new PVector(0, 0);
     }
